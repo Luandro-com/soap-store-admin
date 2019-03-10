@@ -1,0 +1,12 @@
+query {
+  allOrders {
+    id
+    recurrying
+    status
+    totalPrice
+    customer {
+      id
+      email
+    }
+  }
+}

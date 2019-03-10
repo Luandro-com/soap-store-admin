@@ -1,0 +1,5 @@
+mutation uploadFiles($files: [Upload!]!) {
+    uploadMultipleFiles(files: $files) {
+      filename
+    }
+  }

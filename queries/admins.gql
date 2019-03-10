@@ -1,0 +1,10 @@
+query {
+ admins {
+  email
+  role
+  id
+  posts {
+    id
+  }
+}
+}

@@ -1,0 +1,14 @@
+query {
+  customers {
+    id
+    email
+    payments {
+      returnCode
+      amount
+    }
+    orders {
+      totalPrice
+      id
+    }
+  }
+}

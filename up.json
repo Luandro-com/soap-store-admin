@@ -1,0 +1,7 @@
+{
+  "name": "jornal-admin",
+  "lambda": {
+    "memory": 1536
+  }
+}
+
