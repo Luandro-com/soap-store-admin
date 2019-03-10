@@ -1,3 +1,11 @@
 query {
-  content
+  content {
+    title
+    code
+    logo
+    sections
+    description
+    contact
+    footer
+  }
 }

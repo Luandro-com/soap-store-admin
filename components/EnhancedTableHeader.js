@@ -8,11 +8,11 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Tooltip from '@material-ui/core/Tooltip'
 
 const rows = [
-  { id: 'author', numeric: false, disablePadding: false, label: 'Autor' },
-  { id: 'title', numeric: false, disablePadding: false, label: 'Título' },
-  { id: 'file', numeric: false, disablePadding: false, label: 'PDF' },
-  { id: 'read', numeric: false, disablePadding: false, label: 'Ler' },
-  { id: 'contact', numeric: false, disablePadding: true, label: 'Contato' },
+  { id: 'author', align: 'center', disablePadding: false, label: 'Autor' },
+  { id: 'title', align: 'center', disablePadding: false, label: 'Título' },
+  { id: 'file', align: 'center', disablePadding: false, label: 'PDF' },
+  { id: 'read', align: 'center', disablePadding: false, label: 'Ler' },
+  { id: 'contact', align: 'center', disablePadding: true, label: 'Contato' },
 ]
 
 
@@ -38,13 +38,13 @@ class EnhancedTableHead extends React.Component {
             return (
               <TableCell
                 key={row.id}
-                numeric={row.numeric}
+                align={row.align}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
               >
                 <Tooltip
                   title="Sort"
-                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                  placement={row.align ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
                   <TableSortLabel

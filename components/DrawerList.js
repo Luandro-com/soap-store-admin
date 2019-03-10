@@ -7,11 +7,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import DashboardIcon from '@material-ui/icons/DashboardOutlined'
 import OrdersIcon from '@material-ui/icons/MoveToInboxOutlined'
-import IssueIcon from '@material-ui/icons/FeaturedPlayListOutlined'
+import ProductsIcon from '@material-ui/icons/LocalOfferOutlined'
 import ClientsIcon from '@material-ui/icons/FaceOutlined'
 import AdminIcon from '@material-ui/icons/PeopleOutlineOutlined'
 import AnalyticsIcon from '@material-ui/icons/PollOutlined'
-import JournalIcon from '@material-ui/icons/BookOutlined'
+import ShopIcon from '@material-ui/icons/ShopOutlined'
 import LogoutIcon from '@material-ui/icons/ExitToAppOutlined'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
@@ -34,22 +34,22 @@ const DrawerList = ({ classes, email, name, router: { pathname } }) => (
               <ListItemText primary={"Painel"} />
             </ListItem>
           </Link>
-          <Link prefetch href='/submissions'>
-            <ListItem button disabled={pathname === '/submissions'}>
+          <Link prefetch href='/orders'>
+            <ListItem button disabled={pathname === '/orders'}>
               <ListItemIcon><OrdersIcon /></ListItemIcon>
-              <ListItemText primary={"Submissões"} />
+              <ListItemText primary={"Ordens"} />
             </ListItem>
           </Link>
-          <Link prefetch href='/issues'>
-            <ListItem button disabled={pathname === '/issues'}>
-              <ListItemIcon><IssueIcon /></ListItemIcon>
-              <ListItemText primary={"Edições"} />
+          <Link prefetch href='/products'>
+            <ListItem button disabled={pathname === '/products'}>
+              <ListItemIcon><ProductsIcon /></ListItemIcon>
+              <ListItemText primary={"Produtos"} />
             </ListItem>
           </Link>
-          <Link prefetch href='/users'>
-            <ListItem button disabled={pathname === '/users'}>
+          <Link prefetch href='/clients'>
+            <ListItem button disabled={pathname === '/clients'}>
               <ListItemIcon><ClientsIcon /></ListItemIcon>
-              <ListItemText primary={"Usuários"} />
+              <ListItemText primary={"Clientes"} />
             </ListItem>
           </Link>
           <Link prefetch href='/admins'>
@@ -65,10 +65,10 @@ const DrawerList = ({ classes, email, name, router: { pathname } }) => (
             </ListItem>
           </Link> */}
           <Divider />
-          <Link prefetch href='/journal'>
-            <ListItem button disabled={pathname === '/journal'}>
-              <ListItemIcon><JournalIcon /></ListItemIcon>
-              <ListItemText primary={"Periódico"} />
+          <Link prefetch href='/shop'>
+            <ListItem button disabled={pathname === '/shop'}>
+              <ListItemIcon><ShopIcon /></ListItemIcon>
+              <ListItemText primary={"Loja"} />
             </ListItem>
           </Link>
           <ListItem button>

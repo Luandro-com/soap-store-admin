@@ -3,24 +3,24 @@ import Router from 'next/router'
 import { Query, Mutation } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-import CREATE_ISSUE from '../queries/issueCreate.gql'
-import UPDATE_ISSUE from '../queries/issueUpdate.gql'
-import ISSUE from '../queries/issue.gql'
-import ALL_ISSUES_LOCAL from '../queries/allIssuesLocal.gql'
-import ISSUE_PUBLISH_CALL from '../queries/issuePublishCall.gql'
-import ISSUE_PUBLISH from '../queries/issuePublish.gql'
+// import CREATE_ISSUE from '../queries/issueCreate.gql'
+// import UPDATE_ISSUE from '../queries/issueUpdate.gql'
+// import ISSUE from '../queries/issue.gql'
+// import ALL_ISSUES_LOCAL from '../queries/allIssuesLocal.gql'
+// import ISSUE_PUBLISH_CALL from '../queries/issuePublishCall.gql'
+// import ISSUE_PUBLISH from '../queries/issuePublish.gql'
 
-import IssueForm from '../components/forms/issue'
+import ProductForm from '../components/forms/product'
 import App from '../components/App'
 import Loading from '../components/Loading'
 
 const IssueEdit = ({ router: { query: { key } } }) => {
   return (
     <App>
-      {!key && <Mutation mutation={CREATE_ISSUE}>
+      {/* {!key && <Mutation mutation={CREATE_ISSUE}>
         {(createIssue, { error: errorCreateIssue, client: clientCreate }) => {
           return (
-            <IssueForm
+            <ProductForm
               onSubmit={async (values) => {
                 const res = await createIssue({ variables: { input: values } })
                 console.log('CREATE RES', res)
@@ -47,7 +47,7 @@ const IssueEdit = ({ router: { query: { key } } }) => {
                       {(publishIssueCall, { error: errorPublishCall, client: clientPublishCall }) => (
                         <Mutation mutation={ISSUE_PUBLISH}>
                           {(publishIssue, { error: errorPublish, client: clientPublish }) => (
-                            <IssueForm
+                            <ProductForm
                               onSubmit={async (values) => {
                                 // console.log('VALUES', values)
                                 const res = await updateIssue({ variables: { input: values, issueId: dataIssue.issue.id } })
@@ -74,7 +74,7 @@ const IssueEdit = ({ router: { query: { key } } }) => {
             )
           }}
         </Query>
-      }
+      } */}
     </App>
   )
 }

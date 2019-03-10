@@ -20,6 +20,7 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import RecurrentIcon from '@material-ui/icons/QueryBuilder'
 import { lighten } from '@material-ui/core/styles/colorManipulator'
 import toReal from '../lib/toReal'
+
 // let counter = 0
 // function createData(name, calories, fat, carbs, protein) {
 //   counter += 1
@@ -51,9 +52,10 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'role', align: 'justify', disablePadding: true, label: 'Função' },
-  { id: 'email', align: 'justify', disablePadding: false, label: 'E-mail' },
-  { id: 'posts', align: 'justify', disablePadding: false, label: 'Postagens' },
+  { id: 'email', align: 'justify', disablePadding: true, label: 'Email' },
+  { id: 'numberOrders', align: 'justify', disablePadding: false, label: 'Nº pedidos' },
+  { id: 'numberPayments', align: 'justify', disablePadding: false, label: 'Nº pedidos finalizados' },
+  { id: 'totalSpent', align: 'justify', disablePadding: false, label: 'Total gasto' },
 ]
 
 class EnhancedTableHead extends React.Component {
@@ -67,13 +69,6 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
-          </TableCell>
           {rows.map(row => {
             return (
               <TableCell
@@ -154,7 +149,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Administradores
+            Clientes
           </Typography>
         )}
       </div>
@@ -220,7 +215,7 @@ class EnhancedTable extends React.Component {
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: this.props.admins.map(n => n.id) }))
+      this.setState(state => ({ selected: this.props.customers.map(n => n.id) }))
       return
     }
     this.setState({ selected: [] })
@@ -255,12 +250,10 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
-  isSelected = id => this.state.selected.indexOf(id) !== -1
-
   render() {
-    const { classes, admins } = this.props
+    const { classes, customers } = this.props
     const { order, orderBy, selected, rowsPerPage, page } = this.state
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, admins.length - page * rowsPerPage)
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, customers.length - page * rowsPerPage)
 
     return (
       <Paper className={classes.root}>
@@ -273,31 +266,32 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={admins.length}
+              rowCount={customers.length}
             />
             <TableBody>
-              {stableSort(admins, getSorting(order, orderBy))
+              {stableSort(customers, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(admin => {
-                  const isSelected = this.isSelected(admin.id)
+                .map(customer => {
+                  const validPayments = customer.payments.filter(p => p.returnCode === "4").length
+                  const totalSpent = toReal(customer.payments.reduce((prev, curr) => curr.amount + prev, 0))
                   return (
                     <TableRow
                       hover
-                      onClick={event => this.handleClick(event, admin.id)}
-                      role="checkbox"
-                      aria-checked={isSelected}
                       tabIndex={-1}
-                      key={admin.id}
-                      selected={isSelected}
+                      key={customer.id}
                     >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
+                      <TableCell>
+                        {customer.email}
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {admin.role}
+                      <TableCell>
+                        {customer.orders.length}
                       </TableCell>
-                      <TableCell>{admin.email}</TableCell>
-                      <TableCell align='center'>{admin.posts.length}</TableCell>
+                      <TableCell>
+                        {validPayments}
+                      </TableCell>
+                      <TableCell>
+                        {totalSpent}
+                      </TableCell>
                     </TableRow>
                   )
                 })}
@@ -311,7 +305,7 @@ class EnhancedTable extends React.Component {
         </div>
         <TablePagination
           component="div"
-          count={Math.ceil(admins.length/rowsPerPage)}
+          count={Math.ceil(customers.length/rowsPerPage)}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{

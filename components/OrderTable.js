@@ -20,7 +20,6 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import RecurrentIcon from '@material-ui/icons/QueryBuilder'
 import { lighten } from '@material-ui/core/styles/colorManipulator'
 import toReal from '../lib/toReal'
-
 // let counter = 0
 // function createData(name, calories, fat, carbs, protein) {
 //   counter += 1
@@ -52,10 +51,10 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'email', numeric: true, disablePadding: true, label: 'Email' },
-  { id: 'numberArticles', numeric: false, disablePadding: false, label: 'Nº artigos' },
-  { id: 'numberPayments', numeric: false, disablePadding: false, label: 'Nº artigos submetidos' },
-  { id: 'totalSpent', numeric: false, disablePadding: false, label: 'Total gasto' },
+  { id: 'totalPrice', align: 'justify', disablePadding: true, label: 'Total' },
+  { id: 'recurrying', align: 'justify', disablePadding: false, label: 'Recorrente' },
+  { id: 'status', align: 'justify', disablePadding: false, label: 'Status' },
+  { id: 'client', align: 'justify', disablePadding: false, label: 'Cliente' },
 ]
 
 class EnhancedTableHead extends React.Component {
@@ -69,17 +68,24 @@ class EnhancedTableHead extends React.Component {
     return (
       <TableHead>
         <TableRow>
+          <TableCell padding="checkbox">
+            <Checkbox
+              indeterminate={numSelected > 0 && numSelected < rowCount}
+              checked={numSelected === rowCount}
+              onChange={onSelectAllClick}
+            />
+          </TableCell>
           {rows.map(row => {
             return (
               <TableCell
                 key={row.id}
-                numeric={row.numeric}
+                align={row.align}
                 padding={row.disablePadding ? 'none' : 'default'}
                 sortDirection={orderBy === row.id ? order : false}
               >
                 <Tooltip
                   title="Sort"
-                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+                  placement={row.align ? 'bottom-end' : 'bottom-start'}
                   enterDelay={300}
                 >
                   <TableSortLabel
@@ -149,7 +155,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Clientes
+            Ordens
           </Typography>
         )}
       </div>
@@ -215,7 +221,7 @@ class EnhancedTable extends React.Component {
 
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: this.props.users.map(n => n.id) }))
+      this.setState(state => ({ selected: this.props.orders.map(n => n.id) }))
       return
     }
     this.setState({ selected: [] })
@@ -250,10 +256,12 @@ class EnhancedTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value })
   }
 
+  isSelected = id => this.state.selected.indexOf(id) !== -1
+
   render() {
-    const { classes, users } = this.props
+    const { classes, orders } = this.props
     const { order, orderBy, selected, rowsPerPage, page } = this.state
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage)
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, orders.length - page * rowsPerPage)
 
     return (
       <Paper className={classes.root}>
@@ -266,32 +274,33 @@ class EnhancedTable extends React.Component {
               orderBy={orderBy}
               onSelectAllClick={this.handleSelectAllClick}
               onRequestSort={this.handleRequestSort}
-              rowCount={users.length}
+              rowCount={orders.length}
             />
             <TableBody>
-              {stableSort(users, getSorting(order, orderBy))
+              {stableSort(orders, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(user => {
-                  const validPayments = user.payments.filter(p => p.returnCode === "4").length
-                  const totalSpent = toReal(user.payments.reduce((prev, curr) => curr.amount + prev, 0))
+                .map(n => {
+                  const formatedTotal = toReal(n.totalPrice)
+                  const isSelected = this.isSelected(n.id)
                   return (
                     <TableRow
                       hover
+                      onClick={event => this.handleClick(event, n.id)}
+                      role="checkbox"
+                      aria-checked={isSelected}
                       tabIndex={-1}
-                      key={user.id}
+                      key={n.id}
+                      selected={isSelected}
                     >
-                      <TableCell>
-                        {user.email}
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={isSelected} />
                       </TableCell>
-                      <TableCell>
-                        {user.articles.length}
+                      <TableCell component="th" scope="row" padding="none" align>
+                        {formatedTotal}
                       </TableCell>
-                      <TableCell>
-                        {validPayments}
-                      </TableCell>
-                      <TableCell>
-                        {totalSpent}
-                      </TableCell>
+                      <TableCell>{n.recurrying && <RecurrentIcon />}</TableCell>
+                      <TableCell>{n.status}</TableCell>
+                      <TableCell>{n.customer.email}</TableCell>
                     </TableRow>
                   )
                 })}
@@ -305,7 +314,7 @@ class EnhancedTable extends React.Component {
         </div>
         <TablePagination
           component="div"
-          count={Math.ceil(users.length/rowsPerPage)}
+          count={Math.ceil(orders.length/rowsPerPage)}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{

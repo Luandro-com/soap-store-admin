@@ -12,7 +12,6 @@ import MenuIcon from '@material-ui/icons/Menu'
 import { checkToken } from '../lib/auth'
 import Drawer from '../components/Drawer'
 import USER from '../queries/user.gql'
-import Loading from '../components/Loading'
 
 const drawerWidth = 240
 
@@ -62,9 +61,9 @@ class App extends Component {
     return (
       <Query query={USER}>
         {({ loading: loadingUser, error: errorUser, data: dataUser }) => {
-          if(loadingUser) return <Loading />
+          if(loadingUser) return <h1>Loading</h1>
           if(dataUser && dataUser.user) {
-            if (dataUser.user.role !== 'ADMIN' && dataUser.user.role !== 'EDITOR') {
+            if (dataUser.user.role === 'CUSTOMER') {
               return <h1>Não autorizado</h1>
             }
             return (
@@ -81,7 +80,7 @@ class App extends Component {
                       <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" noWrap>
-                      Perdiódicos Admin
+                      Ewe Admin
                     </Typography>
                   </Toolbar>
                 </AppBar>
@@ -95,7 +94,7 @@ class App extends Component {
                   <div className={classes.toolbar} />
                   {this.props.children}
                 </main>
-              </div>
+              </div>  
             )
           }
           Router.push('/login')
