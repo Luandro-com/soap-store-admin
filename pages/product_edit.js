@@ -3,7 +3,7 @@ import Router from 'next/router'
 import { Query, Mutation } from 'react-apollo'
 import { withRouter } from 'next/router'
 
-// import CREATE_ISSUE from '../queries/issueCreate.gql'
+import SAVE_PRODUCT from '../queries/saveProduct.gql'
 // import UPDATE_ISSUE from '../queries/issueUpdate.gql'
 // import ISSUE from '../queries/issue.gql'
 // import ALL_ISSUES_LOCAL from '../queries/allIssuesLocal.gql'
@@ -14,28 +14,28 @@ import ProductForm from '../components/forms/product'
 import App from '../components/App'
 import Loading from '../components/Loading'
 
-const IssueEdit = ({ router: { query: { key } } }) => {
+const ProductEdit = ({ router: { query: { key } } }) => {
   return (
     <App>
-      {/* {!key && <Mutation mutation={CREATE_ISSUE}>
-        {(createIssue, { error: errorCreateIssue, client: clientCreate }) => {
+      {!key && <Mutation mutation={SAVE_PRODUCT}>
+        {(saveProduct, { error: errorSaveProduct, client: clientSaveProduct }) => {
           return (
             <ProductForm
               onSubmit={async (values) => {
-                const res = await createIssue({ variables: { input: values } })
+                const res = await saveProduct({ variables: { input: values } })
                 console.log('CREATE RES', res)
-                if (errorCreateIssue) console.log('ERROR do something...', errorCreateIssue)
-                // const { allIssues } = clientCreate.cache.readQuery({ query: ALL_ISSUES_LOCAL})
-                // clientCreate.writeData({ data: {
-                //   allIssues: Object.assign(allIssues, res.data.createIssue)
+                if (errorSaveProduct) console.log('ERROR do something...', errorSaveProduct)
+                // const { allIssues } = clientSaveProduct.cache.readQuery({ query: ALL_ISSUES_LOCAL})
+                // clientSaveProduct.writeData({ data: {
+                //   allIssues: Object.assign(allIssues, res.data.saveProduct)
                 // }})
-                Router.push('/issues')
+                Router.push('/products')
               }}
             />
           )
         }}
       </Mutation>}
-      {key && 
+      {/* {key && 
         <Query query={ISSUE} variables={{ issueKey: key }}>
           {({ loading: loadingIssue, error: errorIssue, data: dataIssue }) => {
             if (loadingIssue) return <Loading />
@@ -79,4 +79,4 @@ const IssueEdit = ({ router: { query: { key } } }) => {
   )
 }
 
-export default withRouter(IssueEdit)
+export default withRouter(ProductEdit)

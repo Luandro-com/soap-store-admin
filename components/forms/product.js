@@ -221,11 +221,8 @@ class IssueForm extends Component {
               <Button size="small" color="primary" type="submit" disabled={pristine || invalid}>
                 Salvar
               </Button>
-              <Button size="small" color="primary" onClick={() => publishCall({ variables: { issueId: issue.id }})} disabled={!issue || issue.publishedCall}>
-                Publicar Chamada
-              </Button>
               <Button size="small" color="default" onClick={() => publish({ variables: { issueId: issue.id }})} disabled={!issue || !issue.publishedCall || issue.published}>
-                Publicar Edição
+                Publicar produto
               </Button>
           </Paper>
           <style jsx>{`
