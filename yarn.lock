@@ -4544,8 +4544,8 @@ next-offline@^3.2.1:
     workbox-webpack-plugin "3.6.3"
 
 next-optimized-images@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/next-optimized-images/-/next-optimized-images-2.3.3.tgz#0eafc503450f103c72c4923d53f9c239fd0be6cb"
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/next-optimized-images/-/next-optimized-images-2.4.0.tgz#b485297e9d6e0836a102a7d22c3d3c9fb135a683"
   dependencies:
     chalk "^2.4.1"
     figures "^2.0.0"

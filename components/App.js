@@ -80,7 +80,7 @@ class App extends Component {
                       <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" noWrap>
-                      Ewe Admin
+                      Admin
                     </Typography>
                   </Toolbar>
                 </AppBar>
